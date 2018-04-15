@@ -1,0 +1,14 @@
+#ifndef BACKGROUND_H
+#define BACKGROUND_H
+
+#include "objects.h"
+#include <allegro5/allegro.h>
+
+void initBackground(Background *back, float x, float y, float velx,
+		    float vely, int width, int height, int dirX,
+		    int dirY, ALLEGRO_BITMAP *image);
+void updateBackground(Background *bg);
+void drawBackground(Background *bg);
+
+
+#endif

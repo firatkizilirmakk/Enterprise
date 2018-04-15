@@ -1,0 +1,53 @@
+#include <allegro5/allegro_ttf.h>
+#include <string.h>
+#include "../include/menu.h"
+#include "../include/objects.h"
+#include "../include/main.h"
+/*TODO add pause state,when pressed esc while game is being played*/
+void initMenu(menuT *menu , ALLEGRO_FONT *f)
+{
+  menu -> c = 0;
+  menu -> words = 3;
+  strcpy(menu -> strings[0],"Play");
+  strcpy(menu -> strings[1],"Highscores");
+  strcpy(menu -> strings[2],"Exit");
+  menu -> font = f;
+  menu -> pressed = 0;
+}
+
+void updateMenu(menuT *menu,int movement)
+{
+  menu -> pressed = 1;
+ switch (movement)
+   {
+   case 8:
+     menu -> c -=1;
+     if(menu -> c == -1)
+       menu -> c = menu -> words - 1;
+     break;
+   case 2:
+     menu -> c +=1;
+     if(menu -> c ==  menu -> words)
+       menu -> c = 0;
+     break;
+   }
+}
+
+void drawMenu(menuT *menu,ALLEGRO_DISPLAY_MODE *dispMode)
+{
+  int i;
+  ALLEGRO_COLOR uncolored = al_map_rgb(255,177,177);
+  ALLEGRO_COLOR colored = al_map_rgb(0,177,255);
+  for(i = 0 ; i < menu -> words ; ++i)
+    {
+      if(i == menu -> c)
+	al_draw_textf(menu -> font , colored,
+		      WIDTH / 2 - 105 ,
+		      2 * HEIGHT / 5 + i * 20 , 0 , "%s",menu -> strings[i]);
+      else
+	al_draw_textf(menu -> font , uncolored,
+		      WIDTH / 2 - 105 ,
+		      2 * HEIGHT / 5 + i * 20 ,
+		      0 , "%s",menu -> strings[i]);
+    }
+}

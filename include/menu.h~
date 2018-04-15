@@ -1,0 +1,12 @@
+#ifndef MENU_H
+#define MENU_H
+
+#include <allegro5/allegro_font.h>
+#include "objects.h"
+
+
+void initMenu(Menu *menu , ALLEGRO_FONT *f);
+void updateMenu(Menu *menu,int movement);
+void drawMenu(Menu *menu);
+
+#endif

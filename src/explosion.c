@@ -1,0 +1,83 @@
+#include "../include/explosion.h"
+#include <allegro5/allegro_image.h>
+
+void initExplosion(explosionT *explosion,int eSize,
+		   ALLEGRO_BITMAP *image,
+		   ALLEGRO_SAMPLE *sample)
+{
+  int i;
+  for(i = 0 ; i < eSize ; ++i)
+    {
+      explosion[i].alive = 0;
+
+      explosion[i].curNumFrame = 0;
+      explosion[i].maxNumFrame = 5;
+      explosion[i].frameNumCount = 0;
+      explosion[i].frameNumDelay = 5;
+      explosion[i].frameWidth = 60;
+      explosion[i].frameHeight = 60;
+
+      explosion[i].image = image;
+      explosion[i].sound = sample;
+    }
+}
+/*start the explosion on the given x and y positions*/
+void startExplosion(explosionT *explosion,int eSize,int x,int y)
+{
+  int i;
+  for(i = 0 ; i < eSize ; ++i)
+    {
+      if(explosion[i].alive == 0)
+	{
+	  explosion[i].alive = 1;
+	  explosion[i].x = x;
+	  explosion[i].y = y;
+	  al_play_sample(explosion[i].sound,1,0,1.75,
+			 ALLEGRO_PLAYMODE_ONCE,NULL);
+	  break;
+	}
+    }
+}
+/*update explosion's frames*/
+void updateExplosion(explosionT *explosion,int eSize)
+{
+  int i;
+  for(i = 0 ; i < eSize ; ++i)
+    {
+      if(explosion[i].alive == 1)
+	{
+	  explosion[i].frameNumCount +=1;
+	  if(explosion[i].frameNumCount >=
+	     explosion[i].frameNumDelay)
+	    {
+	      explosion[i].curNumFrame +=1;
+	      if(explosion[i].curNumFrame >=
+		 explosion[i].maxNumFrame)
+		{
+		  explosion[i].curNumFrame = 0;
+		  explosion[i].alive = 0;
+		}
+	      explosion[i].frameNumCount = 0;
+	    }
+	}
+    }
+}
+void drawExplosion(explosionT *explosion,int eSize)
+{
+  int i;
+  int sx;
+  for(i = 0 ; i< eSize ; ++i)
+    {
+      if(explosion[i].alive == 1)
+	{
+	  sx = explosion[i].frameWidth * explosion[i].curNumFrame;
+	  al_draw_bitmap_region(explosion[i].image,sx,0,
+				explosion[i].frameWidth,
+				explosion[i].frameHeight,
+				explosion[i].x -
+				explosion[i].frameWidth / 2,
+				explosion[i].y -
+				explosion[i].frameHeight / 2,0);
+	}
+    }
+}

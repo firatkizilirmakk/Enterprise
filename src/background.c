@@ -1,0 +1,31 @@
+#include <allegro5/allegro.h>
+#include "../include/background.h"
+#include "../include/main.h"
+
+void initBackground(backgroundT *back, float x, float y, float velx, float vely, int width, int height, int dirX, int dirY, ALLEGRO_BITMAP *image)
+{
+  back -> x = x;
+  back -> y = y;
+  back -> vX = velx;
+  back -> vY = vely;
+  back -> width = width;
+  back -> height = height;
+  back -> dirX = dirX;
+  back -> dirY = dirY;
+  back -> image = image;
+}
+/*update background x position*/
+void updateBackground(backgroundT *bg)
+{
+  bg -> x += (bg -> vX * bg -> dirX);
+  if(bg -> x + bg -> width <= 0)
+    bg -> x = 0;
+}
+
+void drawBackground(backgroundT *bg,ALLEGRO_DISPLAY_MODE *dispMode)
+{
+  al_draw_bitmap(bg -> image,bg -> x , bg -> y , 0);
+
+  if(bg -> x + bg -> width < WIDTH)
+    al_draw_bitmap(bg -> image,bg -> x + bg -> width , bg -> y , 0);
+}
