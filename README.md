@@ -7,6 +7,6 @@
   
   To play this game in Linux distrubitions,the game must be compiled with Allegro5 library.So the library must be set up.<br/>
   In order to install the library and compile the game,a guide for setting up can be read written by me in Turkish<br/>through 
-  <a href = "https://legacy.gitbook.com/book/wetype/c-ve-allegro/details">here</a>
+  <a href = "https://wetype.gitbooks.io/c-ve-allegro/content/">here</a>
   
   <br/>I hope you like.
